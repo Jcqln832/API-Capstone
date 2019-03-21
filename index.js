@@ -1,73 +1,90 @@
 'use strict';
 
-const SEARCH_RADIUS = 16000;
-const API_KEY_YELP = "37y8J9ZVE_whz33fD-R2jp82UYhPFn9XY-GXmWOaPFyq4bcV2ZxV5g3VP8ay6hh15B2-kf-WgrTMjoi5LlQyZjUfaR2XBNMeFeH9TMZtqLHWZMvmQP8ly_cG6rmLXHYx";
+// const SEARCH_RADIUS = 16000;
+const API_KEY_STORMGLASS = "7f249d00-4b47-11e9-869f-0242ac130004-7f249e0e-4b47-11e9-869f-0242ac130004";
 const API_KEY_NP = "Zr0S27a7DvoEnaDaAY30QC6Lehvz1lg7YITO8OKf";
-const LOCATION = "";
+// const LOCATION = "";
 
+
+function formatQueryParams(params) {
+  const queryItems = Object.keys(params)
+    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+  return queryItems.join('&');
+}
 
 // Fetch park data from National Parks API
 function getPark(searchTerm) {
 
- const parksUrl = `https://developer.nps.gov/api/v1/parks?q=${searchTerm}
-&fields=addresses`;
-}
+  // custom header in request causes CORS to fail - must pass key as parameter
+  // const options = {
+  //   headers: new Headers ({
+  //     "X-Api-Key": API_KEY_NP
+  //     })
+  // };
 
-const options = {
-    headers: new Headers({
-      X-Api-Key: API_KEY_NP})
-  };
+  const params = {
+    q: searchTerm,
+    fields: "addresses",
+    api_key:  API_KEY_NP
+  }
 
-// function formatQueryParams(params) {
-//   const queryItems = Object.keys(params)
-//     .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
-//   return queryItems.join('&');
-// }
+  const parksUrl = `https://developer.nps.gov/api/v1/parks?${formatQueryParams(params)}`;
 
-fetch(parksUrl, options)
+  fetch(parksUrl)
     .then(response => {
+      // console.log(response);
       if (response.ok) {
         return response.json();
       }
       throw new Error(response.statusText);
     })
-    .then(responseJson => getAddress(responseJson))
+    .then(responseJson => {
+      const park = responseJson.data.find(item => item.fullName.toLowerCase().includes(searchTerm.toLowerCase()))
+      console.log(park)
+      return park;
+      }) 
+    .then(park => getPoint(park))
     .catch(err => {
+      console.error(err);
       $('#js-error-message').text(`Something went wrong: ${err.message}`);
     });
-}
 
-// Get the address from the National Parks API data
-funciton getAddress(){
+  }
 
-}
+//Get the coordinates from the National Parks API data
+ function getPoint(park){
+  let parkCoord= park.latLong;
+  console.log(parkCoord);
+  const lat = 58.7984;
+  const lng = 17.8081;
+  getWeather(lat, lng);
+ }
 
-// Fetch Yelp data based on selected park location
-function getBusinesses(park) {
-  
-  // const params = {
-  //   location: query
-  // };
+// Fetch Weather data based on selected park coordinates
+function getWeather(lat,lng) {
+
+  const params = 'airTemperature';
 
   const options = {
     headers: new Headers({
-      Authorization: Bearer API_KEY_YELP})
+      "Authorization": API_KEY_STORMGLASS })
   };
 
   // const queryString = formatQueryParams(params)
   // const url = searchURL + '?' + queryString;
   const url = 
-`https://api.yelp.com/v3/businesses/search?location=${park}&radius=${SEARCH_RADIUS}&categories=restaurants,food,hotels&sort_by=rating&limit=10`;
-  console.log(yelpUrl);
+`https://api.stormglass.io/point?lat=${lat}&lng=${lng}&params=${params}`;
+  console.log(url);
 
   fetch(url, options)
     .then(response => {
+      console.log(response);
       if (response.ok) {
         return response.json();
       }
       throw new Error(response.statusText);
     })
-    .then(responseJson => displayResults(responseJson))
+    // .then(responseJson => displayResults(responseJson))
     .catch(err => {
       $('#js-error-message').text(`Something went wrong: ${err.message}`);
     });
@@ -76,22 +93,22 @@ function getBusinesses(park) {
 
 // Add content to Page
 
-function displayResults(responseJson) {
-  console.log(responseJson);
+// function displayResults(responseJson) {
+//   console.log(responseJson);
 
-  // if there are previous results, remove them
-  $('li').remove();
+//   // if there are previous results, remove them
+//   $('li').remove();
 
-  // iterate through the response data array
-  for (let i = 1; i < responseJson.data.length; i++){
+//   // iterate through the response data array
+//   for (let i = 1; i < responseJson.data.length; i++){
 
-    $('#results-list').append(
-      `<li><h3>${responseJson.data[i].fullName}</h3>
-      <p>${responseJson.data[i].description}</p>
-      <a href=${responseJson.data[i].url}>${responseJson.data[i].url}</a>
-      </li>`
-    )};
-};
+//     $('#results-list').append(
+//       `<li><h3>${responseJson.data[i].fullName}</h3>
+//       <p>${responseJson.data[i].description}</p>
+//       <a href=${responseJson.data[i].url}>${responseJson.data[i].url}</a>
+//       </li>`
+//     )};
+// };
 
 // Event Listeners
   // get the park name from input field
