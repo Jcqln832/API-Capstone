@@ -15,16 +15,8 @@ function formatQueryParams(params) {
 // Fetch park data from National Parks API
 function getPark(searchTerm) {
 
-  // custom header in request causes CORS to fail - must pass key as parameter
-  // const options = {
-  //   headers: new Headers ({
-  //     "X-Api-Key": API_KEY_NP
-  //     })
-  // };
-
   const params = {
     q: searchTerm,
-    fields: "addresses",
     api_key:  API_KEY_NP
   }
 
@@ -51,29 +43,38 @@ function getPark(searchTerm) {
 
   }
 
-//Get the coordinates from the National Parks API data
+// Get the coordinates from the National Parks API data
  function getPoint(park){
-  let parkCoord= park.latLong;
-  console.log(parkCoord);
-  const lat = 58.7984;
-  const lng = 17.8081;
+  let parkCoords= park.latLong.split(",");
+    // console.log(parkCoords);
+  let cords = parkCoords.map(function(item){
+    return item.split(":")
+  });
+    // console.log(cords);
+  let lat = cords[0][1];
+    // console.log(lat);
+  let lng = cords[1][1];
+    // console.log(lng);
   getWeather(lat, lng);
  }
 
 // Fetch Weather data based on selected park coordinates
 function getWeather(lat,lng) {
 
-  const params = 'airTemperature';
+  const params = 'airTemperature,cloudCover,precipitation';
 
   const options = {
     headers: new Headers({
       "Authorization": API_KEY_STORMGLASS })
   };
-
+  
+// let nowTime = Date.time();
+let d = new Date();
+let t =  d.setUTCHours(12);
   // const queryString = formatQueryParams(params)
   // const url = searchURL + '?' + queryString;
   const url = 
-`https://api.stormglass.io/point?lat=${lat}&lng=${lng}&params=${params}`;
+`https://api.stormglass.io/point?lat=${lat}&lng=${lng}&params=${params}&source=noaa&start=${t}&end=${t}`;
   console.log(url);
 
   fetch(url, options)
@@ -84,7 +85,7 @@ function getWeather(lat,lng) {
       }
       throw new Error(response.statusText);
     })
-    // .then(responseJson => displayResults(responseJson))
+    .then(responseJson => displayResults(responseJson))
     .catch(err => {
       $('#js-error-message').text(`Something went wrong: ${err.message}`);
     });
@@ -93,22 +94,22 @@ function getWeather(lat,lng) {
 
 // Add content to Page
 
-// function displayResults(responseJson) {
-//   console.log(responseJson);
+function displayResults(responseJson) {
+  console.log(responseJson);
 
-//   // if there are previous results, remove them
-//   $('li').remove();
+  // if there are previous results, remove them
+  $('li').remove();
 
-//   // iterate through the response data array
-//   for (let i = 1; i < responseJson.data.length; i++){
+  // iterate through the response data array
+  // for (let i = 1; i < responseJson.data.length; i++){
 
-//     $('#results-list').append(
-//       `<li><h3>${responseJson.data[i].fullName}</h3>
-//       <p>${responseJson.data[i].description}</p>
-//       <a href=${responseJson.data[i].url}>${responseJson.data[i].url}</a>
-//       </li>`
-//     )};
-// };
+  //   $('#results-list').append(
+  //     `<li><h3>${responseJson.data[i].fullName}</h3>
+  //     <p>${responseJson.data[i].description}</p>
+  //     <a href=${responseJson.data[i].url}>${responseJson.data[i].url}</a>
+  //     </li>`
+  //   )};
+};
 
 // Event Listeners
   // get the park name from input field
