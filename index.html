@@ -5,27 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>National Parks 
       Surrounding Bussinesses Guide</title>
-    <link href="index.css" rel="stylesheet" type="text/css" />
+    <link href="style.css" rel="stylesheet" type="text/css" />
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
   </head>
   <body>
     <div class="container">
-        <h1>Explore Near the Park</h1>
-        <p>You've decided to visit a national park. How exciting! I bet you have specific trails picked out and natural wonders you plan to photograph. This app will show you highly rated food and lodging establishments within a 10 mile radius of the park - so you have a plan for what happens after the hike :)  </p>
+        <h1>National Parks Weather</h1>
+        <p>You've decided to visit a national park. How exciting! I bet you have specific trails picked out and natural wonders you plan to photograph. This app will tell you about the weather of the park you choose so you can plan your attire and gear ahead of your visit!</p>
 
         <form id="js-form">
           <label for="search-parks">Please enter the name of a national park:</label>
           <br>
-          <input type="text" class="js-search-term"></input>
+          <input type="text" id="js-search-term"></input>
           <input type="submit" value="Submit">
         </form>
 
         <p id="js-error-message" class="error-message"></p>
 
-        <h2>Search results</h2>
+        <h2>Weather Summary</h2>
+        <div id="summary"></div>
+
+        <h2>Current Conditions</h2>
           <ul id="results-list">
           </ul>
     </div>
-    <script src="index.js"></script>
+    <script src="script.js"></script>
   </body>
 </html>
