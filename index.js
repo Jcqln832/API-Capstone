@@ -28,7 +28,8 @@ function getPark(searchTerm) {
     })
     // make sure results contain only the named park
     .then(responseJson => {
-      const park = responseJson.data.find(item => item.fullName.toLowerCase().includes(searchTerm.toLowerCase()))
+      let term = searchTerm.replace("park", "");
+      const park = responseJson.data.find(item => item.fullName.toLowerCase().includes(term.toLowerCase()))
       console.log(park);
       if(park === undefined) {
         throw new Error("That park was not found. Please check spelling and try again.");
@@ -137,14 +138,19 @@ function displayResults(responseJson) {
     );
 }
 
+function clearContent(){
+  $('#summary > p, .title').remove();
+  $('#js-error-message').text("");
+  $('li').remove();
+}
+
 // Event Listeners
   // get the park name from input field, call getPark
 function watchForm() {
   $('form').submit(event => {
     event.preventDefault();
     const searchTerm = $('#js-search-term').val();
-    $('#summary > p, .title').remove();
-    $('#js-error-message').text("");
+    clearContent();
     getPark(searchTerm);
   });
 }
