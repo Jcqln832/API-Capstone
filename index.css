@@ -38,9 +38,10 @@ label {
     margin-bottom: 16px;
 }
 
-.container > * {
+.container > p,form,h2,section {
     padding: 0px 8%;
     max-width: 768px;
+    margin: 50px auto;
 }
 
 /*** Media Queries ***/
