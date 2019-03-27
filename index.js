@@ -29,7 +29,10 @@ function getPark(searchTerm) {
     // make sure results contain only the named park
     .then(responseJson => {
       const park = responseJson.data.find(item => item.fullName.toLowerCase().includes(searchTerm.toLowerCase()))
-      console.log(park)
+      console.log(park);
+      if(park === undefined) {
+        throw new Error("That park was not found. Please check spelling and try again.");
+      }
       return park;
       })
     .then(park => getPoint(park))
@@ -53,13 +56,17 @@ function getPark(searchTerm) {
   let lng = cords[1][1];
     // console.log(lng)
   let summary = park.weatherInfo;
-  displaySummary(summary);
+  let title = park.fullName;
+  displayParkInfo(summary, title);
   getWeather(lat, lng);
  }
 
- function displaySummary(summary) {
-   $('#summary').append(
-      `<p>${summary}</p>`);
+function displayParkInfo(summary, title) {
+  $('#summary').append(
+    `<p>${summary}</p>`);
+  $('#js-form').after(
+    `<h2 class="title">${title}</h2>`
+  );
  }
 
 // Fetch weather data with selected park's coordinates
@@ -72,26 +79,26 @@ function getWeather(lat,lng) {
       "Authorization": API_KEY_STORMGLASS })
   };
   
-let dateTime = new Date();
-dateTime.setMinutes(0);
-dateTime.setSeconds(0);
-dateTime.setMilliseconds(0);
+  let dateTime = new Date();
+  dateTime.setMinutes(0);
+  dateTime.setSeconds(0);
+  dateTime.setMilliseconds(0);
 
-let startTime =  dateTime.toISOString();
-console.log("Start Time: " + startTime);
+  let startTime =  dateTime.toISOString();
+  console.log("Start Time: " + startTime);
 
-let dateTime2 = new Date();
-// let tzo2 = dateTime2.getTimezoneOffset();
-dateTime2.setMinutes(0);
-dateTime2.setSeconds(0);
-dateTime2.setMilliseconds(0);
-let endTime = dateTime2.toISOString();
-console.log("End Time:" + endTime);
-  // const queryString = formatQueryParams(params)
-  // const url = searchURL + '?' + queryString;
-  const url = 
-`https://api.stormglass.io/point?lat=${lat}&lng=${lng}&params=${params}&source=noaa&start=${startTime}&end=${endTime}`;
-  console.log(url);
+  let dateTime2 = new Date();
+  // let tzo2 = dateTime2.getTimezoneOffset();
+  dateTime2.setMinutes(0);
+  dateTime2.setSeconds(0);
+  dateTime2.setMilliseconds(0);
+  let endTime = dateTime2.toISOString();
+  console.log("End Time:" + endTime);
+    // const queryString = formatQueryParams(params)
+    // const url = searchURL + '?' + queryString;
+    const url = 
+  `https://api.stormglass.io/point?lat=${lat}&lng=${lng}&params=${params}&source=noaa&start=${startTime}&end=${endTime}`;
+    console.log(url);
 
   fetch(url, options)
     .then(response => {
@@ -108,8 +115,8 @@ console.log("End Time:" + endTime);
 }
 
 function toFahrenheit(celsius) {
-    let fahrenheit = Math.round((celsius * (9/5)) + 32);
-    return fahrenheit;
+  let fahrenheit = Math.round((celsius * (9/5)) + 32);
+  return fahrenheit;
 }
 
 // Add content to Page
@@ -123,23 +130,21 @@ function displayResults(responseJson) {
   let celsius = responseJson.hours[0].airTemperature[0].value;
   let degreesFar = toFahrenheit(celsius);
 
-  // iterate through the response data array
-  // for (let i = 1; i < responseJson.length; i++){
-
     $('#results-list').append(
-      `<li><p>Temperature: ${degreesFar} ^F</p></li>
+      `<li><p>Temperature: ${degreesFar} &#176F</p></li>
       <li><p>Cloud Cover: ${responseJson.hours[0].cloudCover[0].value}%</p></li>
       `
     );
-};
-// };
+}
 
 // Event Listeners
-  // get the park name from input field
+  // get the park name from input field, call getPark
 function watchForm() {
   $('form').submit(event => {
     event.preventDefault();
     const searchTerm = $('#js-search-term').val();
+    $('#summary > p, .title').remove();
+    $('#js-error-message').text("");
     getPark(searchTerm);
   });
 }

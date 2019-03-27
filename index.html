@@ -4,13 +4,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>National Parks 
-      Surrounding Bussinesses Guide</title>
-    <link href="style.css" rel="stylesheet" type="text/css" />
+      Weather Guide</title>
+     <link href="https://necolas.github.io/normalize.css/8.0.1/normalize.css" rel="stylesheet" type="text/css" />
+      <link href="https://fonts.googleapis.com/css?family=Roboto|Work+Sans" rel="stylesheet"> 
+    <link href="index.css" rel="stylesheet" type="text/css" />
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
   </head>
   <body>
-    <div class="container">
-        <h1>National Parks Weather</h1>
+    <header>
+        <h1>Weather at the Park</h1>
+      </header> 
+    <main class="container">
+       
         <p>You've decided to visit a national park. How exciting! I bet you have specific trails picked out and natural wonders you plan to photograph. This app will tell you about the weather of the park you choose so you can plan your attire and gear ahead of your visit!</p>
 
         <form id="js-form">
@@ -22,13 +27,17 @@
 
         <p id="js-error-message" class="error-message"></p>
 
-        <h2>Weather Summary</h2>
-        <div id="summary"></div>
+        <h2 class="title"></h2>
 
-        <h2>Current Conditions</h2>
-          <ul id="results-list">
-          </ul>
-    </div>
-    <script src="script.js"></script>
+        <h3>Weather Summary</h3>
+        <section id="summary"></section>
+
+        <h3>Current Conditions</h3>
+          <section>
+            <ul id="results-list">
+            </ul>
+          <section>
+    </main>
+    <script src="index.js"></script>
   </body>
 </html>
