@@ -18,19 +18,21 @@ function getPark(searchTerm) {
   }
 
   const parksUrl = `https://developer.nps.gov/api/v1/parks?${formatQueryParams(params)}`;
-
+  console.log(parksUrl);
   fetch(parksUrl)
     .then(response => {
       if (response.ok) {
         return response.json();
+        console.log(responseJson);
       }
       throw new Error(response.statusText);
     })
     // make sure results contain only the named park
     .then(responseJson => {
-      let term = searchTerm.replace("park", "");
-      const park = responseJson.data.find(item => item.fullName.toLowerCase().includes(term.toLowerCase()))
-      console.log(park);
+      console.log(responseJson);
+      const park = responseJson.data.find(item => item.fullname.toLowerCase().includes(searchTerm));
+      // const park = responseJson.data.find(item => item.fullName.toLowerCase().includes(searchTerm.toLowerCase()))
+      console.log("Park is: " + park);
       if(park === undefined) {
         throw new Error("That park was not found. Please check spelling and try again.");
       }
@@ -46,7 +48,7 @@ function getPark(searchTerm) {
 // Get park coordinates and weather summary from the National Parks API data. Then call functions to  (1)display the summary and (2)get current weather data from StormGlass API using coordinates
 
  function getPoint(park){
-  let parkCoords= park.latLong.split(",");
+  let parkCoords= park.latlong.split(",");
     // console.log(parkCoords);
   let cords = parkCoords.map(function(item){
     return item.split(":")
@@ -56,15 +58,21 @@ function getPark(searchTerm) {
     // console.log(lat);
   let lng = cords[1][1];
     // console.log(lng)
-  let summary = park.weatherInfo;
-  let title = park.fullName;
+  let summary = park.weatherinfo;
+  let title = park.fullname;
   displayParkInfo(summary, title);
   getWeather(lat, lng);
  }
 
 function displayParkInfo(summary, title) {
+  if ((`${summary}`).includes("http")){
+    $('#summary').append(
+      `<a href="${summary}">View  National Weather Service forecast</a>`
+    );
+  } else {
   $('#summary').append(
     `<p>${summary}</p>`);
+  }
   $('#js-form').after(
     `<h2 class="title">${title}</h2>`
   );
@@ -139,7 +147,7 @@ function displayResults(responseJson) {
 }
 
 function clearContent(){
-  $('#summary > p, .title').remove();
+  $('#summary > p, #summary > a, .title').remove();
   $('#js-error-message').text("");
   $('li').remove();
 }
@@ -149,7 +157,9 @@ function clearContent(){
 function watchForm() {
   $('form').submit(event => {
     event.preventDefault();
-    const searchTerm = $('#js-search-term').val();
+    const term = $('#js-search-term').val();
+    const searchTerm = term.replace("park", "").toLowerCase().trim();
+    console.log("searchTerm is : " + searchTerm);
     clearContent();
     getPark(searchTerm);
   });
