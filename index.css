@@ -29,12 +29,17 @@ p, label {
     color: #1d2d44;
     font-size: 16px;
     font-family: "Roboto";
-    line-height: 1.125;
+    line-height: 1.5;
 }
 
 header {
-    min-height: 300px;
     background-color: #008c51;
+    background: linear-gradient(to bottom, rgba(0,140,81,0),rgba(0,140,81,.75)),url(/img/zion-1800.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 300px;
+   
     display: flex;
     align-items: center;
     justify-content: center;
