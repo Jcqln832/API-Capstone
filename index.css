@@ -41,6 +41,7 @@ header {
     min-height: 300px;
     box-shadow: 0 3px 12px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.22);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
@@ -113,5 +114,8 @@ input {
     }
     header {
         min-height: 500px;
+    }
+    .intro {
+        padding-top: 50px;
     }
 }

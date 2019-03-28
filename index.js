@@ -166,7 +166,7 @@ function watchForm() {
   });
 }
 
-var skycons = new Skycons({"color": "red"});
+var skycons = new Skycons({"color": "#ffe9ba"});
 skycons.add("icon1", Skycons.CLEAR_DAY);
 skycons.play();
 
