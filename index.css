@@ -56,14 +56,15 @@ input {
     border-radius: 4px;
 }
 
-input[type="submit"] {
+.submit {
     color: white;
     background: #084c61;
     transition: .2s;
+    border: 0px solid transparent;
     box-shadow: 0 3px 12px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.22);
 }
 
-input[type="submit"]:hover {
+.submit:hover {
     background: #0e83a8;
     box-shadow: 0 3px 10px rgba(0,0,0,0.14), 0 2px 8px rgba(0,0,0,0.22);
 }
