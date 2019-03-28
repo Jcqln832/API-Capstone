@@ -140,9 +140,9 @@ function displayResults(responseJson) {
   let degreesFar = toFahrenheit(celsius);
 
     $('#results-list').append(
-      `<li><span class="icon"><img src="img/ther.png"/ alt="thermometer icon"></span><p class="data">Temperature: ${degreesFar} &#176F</p>
+      `<li><span class="icon"><img src="img/temp.png"/ alt="thermometer icon"></span><p class="data">Temperature: ${degreesFar} &#176F</p>
       </li>
-      <li><span class="icon"><img src="img/cloud.png"/ alt="cloud icon"><p class="data">Cloud Cover: ${responseJson.hours[0].cloudCover[0].value}%</p></li>
+      <li><span class="icon"><img src="img/cloud2.png"/ alt="cloud icon"><p class="data">Cloud Cover: ${responseJson.hours[0].cloudCover[0].value}%</p></li>
       `
     );
 }
@@ -165,5 +165,8 @@ function watchForm() {
     getPark(searchTerm);
   });
 }
+
+var skycons = new Skycons({"color": "#ffe9ba"});
+skycons.play();
 
 $(watchForm);
