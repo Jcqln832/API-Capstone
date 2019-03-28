@@ -140,8 +140,9 @@ function displayResults(responseJson) {
   let degreesFar = toFahrenheit(celsius);
 
     $('#results-list').append(
-      `<li><span><img src="img/ther.png"/ alt="thermometer icon"></span>Temperature: ${degreesFar} &#176F</li>
-      <li><span><img src="img/cloud.png"/ alt="cloud icon">Cloud Cover: ${responseJson.hours[0].cloudCover[0].value}%</li>
+      `<li><span class="icon"><img src="img/ther.png"/ alt="thermometer icon"></span><p class="data">Temperature: ${degreesFar} &#176F</p>
+      </li>
+      <li><span class="icon"><img src="img/cloud.png"/ alt="cloud icon"><p class="data">Cloud Cover: ${responseJson.hours[0].cloudCover[0].value}%</p></li>
       `
     );
 }

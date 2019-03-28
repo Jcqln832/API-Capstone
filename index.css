@@ -80,8 +80,17 @@ input {
     color: #611d08;
 }
 
+.title {
+    text-align: center;
+    margin: 75px auto;
+}
+
 #results-list {
     list-style-type: none;
+    padding: 0;
+}
+.data {
+     display: inline-block;
 }
 .icon img {
     display: inline-block;
@@ -90,6 +99,7 @@ input {
 .icon img:first-child {
     width: 20px;
 }
+
 /*** Media Queries ***/
 @media screen and (min-width: 768px) {
     p, label {
