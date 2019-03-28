@@ -67,7 +67,7 @@ function getPark(searchTerm) {
 function displayParkInfo(summary, title) {
   if ((`${summary}`).includes("http")){
     $('#summary').append(
-      `<a href="${summary}">View  National Weather Service forecast</a>`
+      `<a href="${summary}" target="blank">View  National Weather Service Forecast</a>`
     );
   } else {
   $('#summary').append(
