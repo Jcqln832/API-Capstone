@@ -75,15 +75,17 @@ input [type="submit"]:hover {
 }
 
 /*** Media Queries ***/
-@media screen (min-width: 768px) {
+@media screen and (min-width: 768px) {
     p, label {
         font-size: 18px;
     }
-
     h1 {
         font-size: 42px;
     }
     input[type="text"] {
         width: 400px;
+    }
+    header {
+        min-height: 500px;
     }
 }
