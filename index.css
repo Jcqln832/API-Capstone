@@ -25,11 +25,19 @@ h3 {
     color: #008c51;
 }
 
-p, label {
+p, label, a {
     color: #1d2d44;
     font-size: 16px;
     font-family: "Roboto";
     line-height: 1.5;
+}
+
+a {
+    color: #084c61;
+}
+
+a:hover {
+    color: #0e83a8;
 }
 
 header {
@@ -104,7 +112,7 @@ input {
 
 /*** Media Queries ***/
 @media screen and (min-width: 768px) {
-    p, label {
+    p, label, a {
         font-size: 18px;
     }
     h1 {
