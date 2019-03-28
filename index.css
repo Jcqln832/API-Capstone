@@ -54,6 +54,7 @@ label {
 input {
     padding: 12px;
     border-radius: 4px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.22);
 }
 
 .submit {
@@ -79,6 +80,16 @@ input {
     color: #611d08;
 }
 
+#results-list {
+    list-style-type: none;
+}
+.icon img {
+    display: inline-block;
+    padding-right: 12px;
+}
+.icon img:first-child {
+    width: 20px;
+}
 /*** Media Queries ***/
 @media screen and (min-width: 768px) {
     p, label {
