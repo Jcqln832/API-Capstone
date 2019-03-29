@@ -90,7 +90,7 @@ input {
     color: #611d08;
 }
 
-.title {
+.title, .error-message {
     text-align: center;
     margin: 75px auto;
 }
@@ -109,6 +109,19 @@ input {
 }
 .icon img:first-child {
     width: 20px;
+}
+
+.app {
+    display: none;
+}
+
+.btn-landing {
+    padding: 12px;
+    border-radius: 4px;
+    display: block;
+    margin: 35px auto;
+    font-family: "Work Sans";
+    cursor: pointer;
 }
 
 /*** Media Queries ***/

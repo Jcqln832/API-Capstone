@@ -144,6 +144,12 @@ function clearContent(){
 }
 
 // Event Listeners
+ function loadApp() {
+   $('.btn-landing').click(function() {
+     $('.landing').hide();
+     $('.app').show("300");
+   })
+ }
   // get the park name from input field, call getPark
 function watchForm() {
   $('form').submit(event => {
@@ -162,4 +168,5 @@ var skycons = new Skycons({"color": "#ffe9ba"});
 skycons.add("icon1", Skycons.CLEAR_DAY);
 skycons.play();
 
+$(loadApp);
 $(watchForm);
