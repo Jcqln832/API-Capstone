@@ -6,7 +6,7 @@ This app combines data from the National Parks API and the StormGlass API to all
 ![screenshot of the App](https://github.com/Jcqln832/API-Capstone/blob/master/img/park-weather-api-screenshot-600.jpg)
 
 ## Live Demo
-* https://jcqln832.github.io/API-Capstone/
+* https://jcqln832.github.io/Weather-at-the-park/
 
 ## Built With:
 * HTML
