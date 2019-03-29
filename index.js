@@ -31,8 +31,6 @@ function getPark(searchTerm) {
     .then(responseJson => {
       console.log(responseJson);
       const park = responseJson.data.find(item => item.fullname.toLowerCase().includes(searchTerm));
-      // const park = responseJson.data.find(item => item.fullName.toLowerCase().includes(searchTerm.toLowerCase()))
-      console.log("Park is: " + park);
       if(park === undefined) {
         throw new Error("That park was not found. Please check spelling and try again.");
       }
@@ -45,24 +43,21 @@ function getPark(searchTerm) {
     });
   }
 
-// Get park coordinates and weather summary from the National Parks API data. Then call functions to  (1)display the summary and (2)get current weather data from StormGlass API using coordinates
+// Get park coordinates and weather summary from the National Parks API data. 
+// Then call functions to  (1)display the summary and (2)get current weather data from StormGlass API using coordinates
 
- function getPoint(park){
+function getPoint(park){
   let parkCoords= park.latlong.split(",");
-    // console.log(parkCoords);
   let cords = parkCoords.map(function(item){
     return item.split(":")
   });
-    // console.log(cords);
   let lat = cords[0][1];
-    // console.log(lat);
   let lng = cords[1][1];
-    // console.log(lng)
   let summary = park.weatherinfo;
   let title = park.fullname;
   displayParkInfo(summary, title);
   getWeather(lat, lng);
- }
+}
 
 function displayParkInfo(summary, title) {
   if ((`${summary}`).includes("http")){
@@ -76,11 +71,10 @@ function displayParkInfo(summary, title) {
   $('#js-form').after(
     `<h2 class="title">${title}</h2>`
   );
- }
+}
 
 // Fetch weather data with selected park's coordinates
 function getWeather(lat,lng) {
-
   const params = 'airTemperature,cloudCover';
 
   const options = {
@@ -97,15 +91,13 @@ function getWeather(lat,lng) {
   console.log("Start Time: " + startTime);
 
   let dateTime2 = new Date();
-  // let tzo2 = dateTime2.getTimezoneOffset();
   dateTime2.setMinutes(0);
   dateTime2.setSeconds(0);
   dateTime2.setMilliseconds(0);
   let endTime = dateTime2.toISOString();
   console.log("End Time:" + endTime);
-    // const queryString = formatQueryParams(params)
-    // const url = searchURL + '?' + queryString;
-    const url = 
+
+  const url = 
   `https://api.stormglass.io/point?lat=${lat}&lng=${lng}&params=${params}&source=noaa&start=${startTime}&end=${endTime}`;
     console.log(url);
 
@@ -129,22 +121,20 @@ function toFahrenheit(celsius) {
 }
 
 // Add content to Page
-
 function displayResults(responseJson) {
   console.log(responseJson);
-
-  // if there are previous results, remove them
+  // remove any previous results
   $('li').remove();
 
   let celsius = responseJson.hours[0].airTemperature[0].value;
   let degreesFar = toFahrenheit(celsius);
 
-    $('#results-list').append(
-      `<li><span class="icon"><img src="img/farenheit.png"/ alt="thermometer icon"></span><p class="data">Temperature: ${degreesFar} &#176F</p>
-      </li>
-      <li><span class="icon"><img src="img/cloud2.png"/ alt="cloud icon"><p class="data">Cloud Cover: ${responseJson.hours[0].cloudCover[0].value}%</p></li>
-      `
-    );
+  $('#results-list').append(
+    `<li><span class="icon"><img src="img/farenheit.png"/ alt="thermometer icon"></span><p class="data">Temperature: ${degreesFar} &#176F</p>
+    </li>
+    <li><span class="icon"><img src="img/cloud2.png"/ alt="cloud icon"><p class="data">Cloud Cover: ${responseJson.hours[0].cloudCover[0].value}%</p></li>
+    `
+  );
 }
 
 function clearContent(){
@@ -166,6 +156,8 @@ function watchForm() {
   });
 }
 
+// add animated icon to header
+// https://darkskyapp.github.io/skycons/
 var skycons = new Skycons({"color": "#ffe9ba"});
 skycons.add("icon1", Skycons.CLEAR_DAY);
 skycons.play();
