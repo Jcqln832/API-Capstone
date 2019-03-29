@@ -60,7 +60,7 @@ function getPoint(park){
 }
 
 function displayParkInfo(summary, title) {
-  if ((`${summary}`).includes("http")){
+  if ((`${summary}`).startsWith("http")){
     $('#summary').append(
       `<a href="${summary}" target="blank">View  National Weather Service Forecast</a>`
     );
