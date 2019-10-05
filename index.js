@@ -30,7 +30,7 @@ function getPark(searchTerm) {
     // make sure results contain only the named park
     .then(responseJson => {
       console.log(responseJson);
-      const park = responseJson.data.find(item => item.fullname.toLowerCase().includes(searchTerm));
+      const park = responseJson.data.find(item => item.fullName.toLowerCase().includes(searchTerm));
       if(park === undefined) {
         throw new Error("That park was not found. Please check spelling and try again.");
       }
@@ -47,14 +47,14 @@ function getPark(searchTerm) {
 // Then call functions to  (1)display the summary and (2)get current weather data from StormGlass API using coordinates
 
 function getPoint(park){
-  let parkCoords= park.latlong.split(",");
+  let parkCoords= park.latLong.split(",");
   let cords = parkCoords.map(function(item){
     return item.split(":")
   });
   let lat = cords[0][1];
   let lng = cords[1][1];
-  let summary = park.weatherinfo;
-  let title = park.fullname;
+  let summary = park.weatherInfo;
+  let title = park.fullName;
   displayParkInfo(summary, title);
   getWeather(lat, lng);
 }
